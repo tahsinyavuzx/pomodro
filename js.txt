@@ -1,0 +1,152 @@
+// Pomodoro Sayaç işlevselliği
+const startPauseBtn = document.getElementById('startPauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+const timeDisplay = document.getElementById('time');
+const projectInput = document.getElementById('projectInput');
+const saveProjectBtn = document.getElementById('saveProjectBtn');
+const projectsList = document.getElementById('projectsList');
+
+let countdown;
+let timeInSeconds = 1500; // 25 dakika = 1500 saniye
+let timerRunning = false;
+
+// Zamanı biçimlendirme fonksiyonu
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+// Başlat / Duraklat butonuna tıklama işlevselliği ekleme
+startPauseBtn.addEventListener('click', function() {
+    if (!timerRunning) {
+        startTimer();
+    } else {
+        pauseTimer();
+    }
+    playClickSound(); // Tıklama sesini çal
+});
+
+// Sıfırla butonuna tıklama işlevselliği ekleme
+resetBtn.addEventListener('click', function() {
+    clearInterval(countdown);
+    timeInSeconds = 1500; // 25 dakika = 1500 saniye
+    timeDisplay.textContent = formatTime(timeInSeconds);
+    startPauseBtn.textContent = 'Başlat';
+    timerRunning = false;
+    playClickSound(); // Tıklama sesini çal
+});
+
+// Timer başlatma fonksiyonu
+function startTimer() {
+    countdown = setInterval(function() {
+        timeInSeconds--;
+        timeDisplay.textContent = formatTime(timeInSeconds);
+        if (timeInSeconds <= 0) {
+            clearInterval(countdown);
+            timeInSeconds = 0;
+            timeDisplay.textContent = formatTime(timeInSeconds);
+            // Timer bittiğinde yapılacak işlemler buraya eklenebilir
+        }
+    }, 1000); // Her saniye güncelle
+    startPauseBtn.textContent = 'Duraklat';
+    timerRunning = true;
+}
+
+// Timer duraklatma fonksiyonu
+function pauseTimer() {
+    clearInterval(countdown);
+    startPauseBtn.textContent = 'Başlat';
+    timerRunning = false;
+}
+
+// Tıklama sesini çalma işlevi
+const clickSound = new Audio('click-sound.mp3');
+
+function playClickSound() {
+    clickSound.currentTime = 0; // Ses dosyasını başa sar
+    clickSound.play();
+}
+
+// Başlangıçta zamanı ekranda gösterme
+timeDisplay.textContent = formatTime(timeInSeconds);
+
+// Kaydet butonuna tıklama işlevselliği ekleme
+saveProjectBtn.addEventListener('click', function() {
+    const projectText = projectInput.value.trim();
+    if (projectText !== '') {
+        // Yeni proje öğesi oluştur
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="project-text">${projectText}</span>
+                <span class="check-icon"></span>
+                <span class="delete-icon">X</span>
+            </div>
+        `;
+        projectsList.appendChild(li);
+        // Girdi alanını temizle
+        projectInput.value = '';
+    }
+});
+
+// Kaydedilen projeleri localStorage'de saklama
+window.addEventListener('beforeunload', function() {
+    const projectItems = projectsList.querySelectorAll('li');
+    const projectData = Array.from(projectItems).map(item => ({
+        text: item.querySelector('.project-text').textContent,
+        completed: item.querySelector('.check-icon').classList.contains('checked')
+    }));
+    localStorage.setItem('savedProjects', JSON.stringify(projectData));
+});
+
+// Sayfa yüklendiğinde localStorage'den projeleri geri yükleme
+window.addEventListener('DOMContentLoaded', function() {
+    const savedProjects = JSON.parse(localStorage.getItem('savedProjects')) || [];
+    savedProjects.forEach((project, index) => {
+        addProjectToList(project.text, project.completed, index);
+    });
+});
+
+// Projeyi listeye ekleme işlevi
+function addProjectToList(text, completed, index) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+        <div class="flex justify-between items-center">
+            <span class="project-text ${completed ? 'completed' : ''}">${text}</span>
+            <span class="check-icon ${completed ? 'checked' : ''}"></span>
+            <span class="delete-icon">X</span>
+        </div>
+    `;
+    projectsList.appendChild(li);
+}
+
+// Tıklandığında projeyi silme işlevi
+projectsList.addEventListener('click', function(e) {
+    if (e.target.classList.contains('delete-icon')) {
+        const projectItem = e.target.closest('li');
+        projectsList.removeChild(projectItem);
+        updateLocalStorage();
+    }
+});
+
+// Tıklandığında doğrulama işaretini (tik) işlevi
+projectsList.addEventListener('click', function(e) {
+    if (e.target.classList.contains('check-icon')) {
+        e.target.classList.toggle('checked');
+        const projectItem = e.target.closest('li');
+        const projectText = projectItem.querySelector('.project-text');
+        projectText.classList.toggle('completed');
+        updateLocalStorage();
+    }
+});
+
+// localStorage güncelleme işlevi
+function updateLocalStorage() {
+    const projectItems = projectsList.querySelectorAll('li');
+    const projectData = Array.from(projectItems).map(item => ({
+        text: item.querySelector('.project-text').textContent,
+        completed: item.querySelector('.check-icon').classList.contains('checked')
+    }));
+    localStorage.setItem('savedProjects', JSON.stringify(projectData));
+}

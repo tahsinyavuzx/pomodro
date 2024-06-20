@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Sayacı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-800 text-white font-sans min-h-screen flex flex-col">
+
+    <header class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold">Pomodoro Sayacı</h1>
+        </div>
+    </header>
+
+    <main class="container mx-auto my-10 px-4 flex-1 flex flex-col items-center justify-center">
+        <div class="timer bg-white p-10 rounded-lg shadow-md text-center max-w-xl w-full transition duration-300 ease-in-out transform hover:scale-105 relative">
+            <div id="time" class="text-6xl font-bold mb-6">25:00</div>
+            <div class="flex justify-center space-x-4 absolute inset-x-0 bottom-0 mb-4">
+                <button id="startPauseBtn" class="bg-red-500 hover:bg-red-600 focus:outline-none text-white py-2 px-4 rounded-lg flex items-center justify-center cursor-pointer">
+                    <span class="mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-player-play" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M7 4v16l13 -8z" />
+                        </svg>
+                    </span>
+                    Başlat
+                </button>
+                <button id="resetBtn" class="bg-red-500 hover:bg-red-600 focus:outline-none text-white py-2 px-4 rounded-lg flex items-center justify-center cursor-pointer">
+                    <span class="mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-refresh" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+                            <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+                        </svg>
+                    </span>
+                    Sıfırla
+                </button>
+            </div>
+        </div>
+
+        <!-- Proje Eklemek İçin Alan -->
+        <div class="mt-8 max-w-xl w-full">
+            <textarea id="projectInput" class="w-full h-24 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-black" placeholder="Projelerinizi buraya yazın..."></textarea>
+            <button id="saveProjectBtn" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg focus:outline-none">Kaydet</button>
+        </div>
+
+        <!-- Kaydedilen Projeler -->
+        <div id="savedProjects" class="mt-8 max-w-xl w-full">
+            <h2 class="text-2xl font-bold mb-4">Kaydedilen Projeler</h2>
+            <ul id="projectsList" class="divide-y divide-gray-300"></ul>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4 mt-10">
+        <div class="container mx-auto">
+            <p>&copy; 2024 - Made with Love ❤️ - Yavuz</p>
+        </div>
+    </footer>
+
+    <!-- Ses dosyası için gerekli audio etiketi -->
+    <audio id="clickSound">
+        <source src="click-sound.mp3" type="audio/mpeg">
+        <!-- Fallback içerik -->
+        Tarayıcınız ses etiketini desteklemiyor.
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

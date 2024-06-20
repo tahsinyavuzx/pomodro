@@ -1,0 +1,91 @@
+/* Genel stiller */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0; /* Arka plan rengi */
+}
+
+header {
+    background-color: #cd1b1b; /* Koyu kırmızı */
+    color: #dd0000;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.timer {
+    background-color: #1F2937; /* Koyu mavi tonu */
+    color: #e0e0e0; /* Açık gri */
+    padding: 50px;
+    text-align: center;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+/* Butonlar */
+#startPauseBtn, #resetBtn, #addProjectBtn, #addCustomTimerBtn {
+    background-color: #111565; /* Koyu mavi */
+    color: white; /* Beyaz */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 11px;
+    transition: background-color 0.3s ease;
+}
+
+#startPauseBtn:hover, #resetBtn:hover, #addProjectBtn:hover, #addCustomTimerBtn:hover {
+    background-color: #1F2937; /* Koyu mavi tonu */
+}
+
+/* Proje kutusu ve Kaydedilen Projeler Listesi */
+.project-box, #projectsList li {
+    background-color: #374151; /* Koyu gri tonu */
+    color: white; /* Beyaz */
+    border-radius: 8px; /* Kenar yuvarlatma */
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Gölge efekti */
+    transition: background-color 0.3s ease;
+}
+
+.project-box:hover, #projectsList li:hover {
+    background-color: #2e3a4e; /* Hafifçe daha koyu gri tonu */
+}
+
+
+/* Doğrulama işareti */
+.check-icon, #projectsList li .check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.check-icon:hover, #projectsList li .check-icon:hover {
+    border-color: #999; /* Hafifçe daha koyu gri */
+}
+
+/* Tamamlanan işaret */
+.check-icon.checked, #projectsList li .check-icon.checked {
+    background-color: #4caf50; /* Yeşil */
+    border-color: #4caf50; /* Yeşil */
+    color: white; /* Beyaz */
+}
+
+/* Silme simgesi */
+.delete-icon, #projectsList li .delete-icon {
+    color: #ccc;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 8px;
+    transition: color 0.3s ease;
+}
+
+.delete-icon:hover, #projectsList li .delete-icon:hover {
+    color: #999; /* Hafifçe daha koyu gri */
+}
